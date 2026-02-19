@@ -56,3 +56,66 @@ The dataset is imbalanced at a ~3.3:1 ratio. This is noted for downstream evalua
 ---
 
 *Stage 1 established structural validity and data integrity required for onset definition and modeling.*
+
+This project integrates core machine learning concepts from the course
+into a structured time-series prediction pipeline.
+
+Supervised Learning:
+The task is formulated as a binary classification problem,
+where the model predicts whether sepsis onset will occur within
+2h, 4h, or 6h.
+
+Linear / Logistic Regression:
+Used as baseline models to benchmark neural network performance.
+
+Bias–Variance Tradeoff:
+Guides architecture complexity, regularization, and early stopping.
+
+Neurons / MLPs:
+Form the foundation of the custom neural network model.
+
+Backpropagation:
+Used to update model weights during training.
+
+Activation Functions:
+Applied in hidden layers to introduce non-linearity and
+in output layer for probability estimation.
+
+Gradient Descent Variants:
+Modern optimizers (e.g., AdamW) will be used to stabilize training.
+
+Train/Test Split:
+Time-aware splitting at the patient level prevents data leakage.
+
+Evaluation Metrics:
+Accuracy, recall, precision, AUROC, and calibration will be used
+to evaluate performance under class imbalance.
+
+Interpretability:
+Feature importance analysis will link predictions to physiological markers.
+
+Ethics & Bias Awareness:
+Error analysis will consider the clinical implications of false negatives
+and false positives in early sepsis detection.
+
+## Stage 3 — Baseline Modeling
+
+### Objective
+Establish a performance benchmark using a linear model (Logistic Regression) to justify the complexity of subsequent neural network architectures.
+
+### Model Architecture
+- **Algorithm**: Logistic Regression with L2 regularization.
+- **Optimization**: L-BFGS (via PyTorch implementation for GPU acceleration).
+- **Input**: Standard-scaled features (45 physiological markers + time encoding).
+- **Target**: Binary classification of sepsis onset within 2h, 4h, and 6h horizons.
+
+### Implementation Details
+Due to the dataset size (602k rows), CPU training was inefficient. We implemented a custom PyTorchLogisticRegression estimator that:
+1.  Moves data to GPU (CUDA).
+2.  Optimizes using 	orch.optim.LBFGS.
+3.  Exposes a scikit-learn compatible API (it, predict_proba).
+
+### Evaluation Strategy
+- **Metric**: Area Under the Receiver Operating Characteristic (AUROC).
+- **Validation**: Patient-level stratified split (80/20) to prevent data leakage.
+- **Result**: The baseline model achieved **AUROC ~0.76** across all horizons, setting a strong linear baseline.

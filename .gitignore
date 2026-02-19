@@ -15,8 +15,19 @@ ENV/
 env.bak/
 venv.bak/
 
-# Data (exclude raw and processed data generally, but keep structure if needed - adjusted for this specific request to keep everything)
-# Data/
+# Data Exclusions (Large Files)
+# Ignore everything in Data by default
+Data/*
+
+# But keep the folder structure by allowing .gitkeep
+!Data/**/.gitkeep
+!Data/metadata/
+
+# Explicitly ignore known large extensions just in case
+*.pkl
+*.csv
+*.tsv
+*.parquet
 
 # IDEs
 .vscode/

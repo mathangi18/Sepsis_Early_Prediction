@@ -28,3 +28,13 @@
 
 **Interim Data:**
 - `Data/interim/sepsis_timeseries_full.pkl`
+
+## Stage 3 — Baseline Modeling & GPU Optimization
+
+| Step | Activity | Notes |
+|---|---|---|
+| 1 | Baseline Logic Implementation | Implemented single-model logistic regression and then expanded to multi-horizon (2h, 4h, 6h). |
+| 2 | Performance Bottleneck Analysis | Identified CPU-bound Logistic Regression on 600k+ rows as the cause of slow training (>20 mins). |
+| 3 | GPU Acceleration Strategy | Developed PyTorchLogisticRegression (in Scripts/gpu_models.py) to leverage CUDA for massive speedup. |
+| 4 | Transformation Pipeline | Integrated StandardScaler to ensure convergence of the GPU-based gradient solver. |
+| 5 | Visualization & Verification | Added robust ROC-AUC plotting and verified ~30x speedup (<1 min training). |
