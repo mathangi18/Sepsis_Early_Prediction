@@ -119,3 +119,32 @@ Due to the dataset size (602k rows), CPU training was inefficient. We implemente
 - **Metric**: Area Under the Receiver Operating Characteristic (AUROC).
 - **Validation**: Patient-level stratified split (80/20) to prevent data leakage.
 - **Result**: The baseline model achieved **AUROC ~0.76** across all horizons, setting a strong linear baseline.
+
+## Stage 4 — Custom LSTM Neural Network
+
+### Objective
+Leverage temporal dependencies in laboratory time-series data using a Recurrent Neural Network (RNN) to improve prediction performance over the linear baseline.
+
+### Model Architecture
+- **Type**: Long Short-Term Memory (LSTM) network.
+- **Layers**: 
+    - LSTM layer (hidden_size=64)
+    - Dropout (0.3)
+    - Fully connected layer (32 neurons, ReLU)
+    - Output layer (1 neuron, Sigmoid)
+- **Loss Function**: Binary Cross Entropy with Logits (BCEWithLogitsLoss).
+- **Class Weights**: Applied pos_weight to address the ~3.3:1 sepsis imbalance.
+
+### Deterministic Training
+To ensure reproducibility of clinical interpretations, the final model artifacts were generated using a deterministic freeze:
+- **Seed**: 42 (fixed for all horizons).
+- **Epochs**: 20 with early stopping (patience=5).
+- **Optimization**: Adam (lr=1e-3).
+
+### Final Performance Results
+Final deterministic AUROC performance across horizons:
+- **2-hour**: 0.8048
+- **4-hour**: 0.7671
+- **6-hour**: 0.7577
+
+Performance scales inversely with horizon length, reflecting the higher physiological signal clarity closer to clinical onset.

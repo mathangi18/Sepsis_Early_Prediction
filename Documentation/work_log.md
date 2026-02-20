@@ -38,3 +38,12 @@
 | 3 | GPU Acceleration Strategy | Developed PyTorchLogisticRegression (in Scripts/gpu_models.py) to leverage CUDA for massive speedup. |
 | 4 | Transformation Pipeline | Integrated StandardScaler to ensure convergence of the GPU-based gradient solver. |
 | 5 | Visualization & Verification | Added robust ROC-AUC plotting and verified ~30x speedup (<1 min training). |
+
+## Stage 4 — Deterministic Model Artifact Freeze
+
+| Step | Activity | Notes |
+|---|---|---|
+| 1 | Deterministic Retraining | Performed retraining with fixed seed (42) for 2h, 4h, and 6h horizons. |
+| 2 | Model Serialization | Exported final `.pt` weights to `Results/model_weights/` for interpretability analysis. |
+| 3 | Comprehensive Evaluation | Generated ROC and PR curves for all horizons; results recorded in `horizon_results.csv`. |
+| 4 | Summary Capture | Documented definitive performance benchmarks (2h: 0.8048, 4h: 0.7671, 6h: 0.7577). |

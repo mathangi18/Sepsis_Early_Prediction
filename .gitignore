@@ -28,6 +28,10 @@ Data/*
 *.csv
 *.tsv
 *.parquet
+*.pt
+
+# Results
+Results/processed_tensors/
 
 # IDEs
 .vscode/
