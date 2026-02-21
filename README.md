@@ -1,3 +1,5 @@
+> This project was developed as part of coursework and extended with additional interpretability analysis.
+
 # 🧠 Early Sepsis Prediction Using Time-Series LSTM
 
 ## Overview
@@ -25,9 +27,14 @@ The dataset contains:
 All preprocessing and modeling were conducted locally. No patient-identifiable data is included in this repository.
 
 ---
+## How to Run
 
+1. Install dependencies (Python 3.10+, PyTorch, sklearn, pandas, numpy, seaborn)
+2. Download SepsisExp dataset from:
+   https://www.cl.uni-heidelberg.de/statnlpgroup/sepsisexp/#data
+3. Follow notebook order (01 → 06)
 ## Model Architecture
-
+---
 Custom LSTM implemented from scratch in PyTorch:
 
 - Input: 12 timesteps × 44 laboratory features  
@@ -135,3 +142,4 @@ This project reflects an interest in:
 - Early-event detection systems  
 
 Feedback and discussion are welcome.
+
