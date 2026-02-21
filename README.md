@@ -1,4 +1,4 @@
-# Sepsis Early Prediction Submission
+# Sepsis Early Prediction 
 
 This project implements a neural network-based solution for the early prediction of sepsis onset using time-series laboratory data. The models are designed to predict sepsis 2 hours, 4 hours, and 6 hours in advance to enable proactive clinical intervention.
 
@@ -43,5 +43,6 @@ pip install -r requirements.txt
 - **Framework**: PyTorch (NN Implementation)
 - **Architecture**: LSTM (Long Short-Term Memory) to capture temporal dependencies in patient history.
 - **Acceleration**: Custom L-BFGS for Logistic Regression and Adam for LSTM, both GPU-optimized.
+
 
 For further reference : https://github.com/mathangi18/Sepsis_Early_Prediction.git
