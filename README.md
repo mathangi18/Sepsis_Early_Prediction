@@ -1,48 +1,98 @@
-# Sepsis Early Prediction 
+# 🧠 Early Sepsis Prediction Using Time-Series LSTM
 
-This project implements a neural network-based solution for the early prediction of sepsis onset using time-series laboratory data. The models are designed to predict sepsis 2 hours, 4 hours, and 6 hours in advance to enable proactive clinical intervention.
+## Overview
+
+Can we predict sepsis hours before clinical recognition — and understand *why* a model makes that prediction?
+
+This project implements a custom LSTM-based neural network to predict sepsis onset **2h, 4h, and 6h in advance** using longitudinal laboratory measurements.
+
+Beyond model performance, this work emphasizes **interpretability**, using permutation importance to analyze how feature relevance shifts across prediction horizons.
+
+---
+
+## Dataset
+
+This project uses the **SepsisExp dataset**.
+
+Dataset credit:  
+https://www.cl.uni-heidelberg.de/statnlpgroup/sepsisexp/#data
+
+The dataset contains:
+- Time-series laboratory measurements per patient  
+- Structured temporal intervals  
+- Sepsis onset annotations  
+
+All preprocessing and modeling were conducted locally. No patient-identifiable data is included in this repository.
+
+---
+
+## Model Architecture
+
+Custom LSTM implemented from scratch in PyTorch:
+
+- Input: 12 timesteps × 44 laboratory features  
+- LSTM (hidden size = 64)  
+- Dropout (0.3)  
+- Fully connected layer (64 → 32 → 1)  
+- ReLU activation  
+- BCEWithLogitsLoss (with class imbalance handling)
+
+Weight initialization:
+- Xavier uniform (input weights)
+- Orthogonal (recurrent weights)
+
+---
+
+## Training Strategy
+
+- Patient-level train/test split (80/20)
+- Adam optimizer (lr = 1e-3)
+- Batch size = 256
+- Early stopping (patience = 5)
+- Class imbalance handled via `pos_weight`
+- Evaluation on held-out test set only
+
+Primary metric: **ROC-AUC**
+
+---
+
+## Performance
+
+| Horizon | ROC-AUC |
+|----------|----------|
+| 2h | ~0.75 |
+| 4h | ~0.73 |
+| 6h | ~0.73 |
+
+Discrimination improves closer to sepsis onset.
+
+---
+
+## Feature Importance (Permutation-Based)
+
+To avoid black-box opacity, permutation importance was used to measure performance drop when individual feature trajectories were shuffled.
+
+### Key Findings
+
+- Feature importance shifts across prediction horizons.
+- 6h emphasizes metabolic and oxygenation markers (e.g., lactate, sodium).
+- 4h highlights respiratory and inflammatory features.
+- 2h strengthens acute hypoperfusion indicators.
+- No small subset of 3–5 laboratory features could approximate full model performance.
+
+This suggests early sepsis detection reflects **distributed multi-system instability**, not a single dominant biomarker.
+
+---
+
+## Minimal Feature Subset Experiments
+
+At 4h:
+
+- Top 3 features → ROC-AUC ≈ 0.63  
+- Top 5 features → ROC-AUC ≈ 0.61  
+
+Performance dropped substantially compared to the full model (~0.73), indicating that compression to a narrow lab panel reduces predictive power.
+
+---
 
 ## Repository Structure
-
-- `Notebooks/`: Contains the end-to-end development pipeline.
-    - `01_EDA_Sepsis_TimeSeries.ipynb`: Exploratory analysis of physiological markers.
-    - `02_Label_Construction.ipynb`: Definition of sepsis onset and temporal labeling.
-    - `03_Baseline_Models.ipynb`: Logistic Regression benchmarks (GPU-accelerated).
-    - `04_Custom_NN_Model.ipynb`: Experimental design of the LSTM architecture.
-    - `05_Final_Model_Evaluation.ipynb`: Deterministic performance analysis and ROC/PR evaluation.
-    - `06_Feature_Importance_and_Minimal_Feature_Analysis.ipynb`: Permutation-based interpretability.
-- `Data/`:
-    - `raw/`: **Placeholder**. Please place the SepsisExp dataset partitions (A-D) here.
-    - `processed/`: Intermediate processed tensors (X_train, y_train, etc.) are expected here after running notebooks.
-- `Results/`:
-    - `model_weights/`: Saved PyTorch model states (`.pt`).
-    - `figures/`: Visualizations of data distributions and model performance.
-    - `tables/`: CSV reports of features and results.
-- `requirements.txt`: Environment dependencies.
-- `submission_q_and_a.txt`: Detailed answers and justifications for the assignment tasks.
-
-## Environment Requirements
-
-- **Python**: 3.11+
-- **Key Libraries**: PyTorch, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn.
-- **Hardware**: CUDA-enabled GPU is highly recommended for training/inference speed (though the notebooks implement fallbacks).
-
-To set up the environment:
-```bash
-pip install -r requirements.txt
-```
-
-## How to Run
-
-1.  **Data Placement**: Download the SepsisExp dataset and ensure the parquet partitions are in `Data/raw/`.
-2.  **Preprocessing**: Run `02_Label_Construction.ipynb` to generate the labeled dataset for all horizons.
-3.  **Inference/Evaluation**: If you wish to evaluate existing models, open `05_Final_Model_Evaluation.ipynb`. It will load the weights from `Results/model_weights/` and perform a full evaluation on the test set.
-4.  **Permutation Importance**: Run `06_Feature_Importance_and_Minimal_Feature_Analysis.ipynb` to see which features contribute most to the predictions.
-
-## Tech Stack
-- **Framework**: PyTorch (NN Implementation)
-- **Architecture**: LSTM (Long Short-Term Memory) to capture temporal dependencies in patient history.
-- **Acceleration**: Custom L-BFGS for Logistic Regression and Adam for LSTM, both GPU-optimized.
-
-
-For further reference : https://github.com/mathangi18/Sepsis_Early_Prediction.git
