@@ -96,3 +96,42 @@ Performance dropped substantially compared to the full model (~0.73), indicating
 ---
 
 ## Repository Structure
+
+01_EDA_Sepsis_TimeSeries.ipynb
+02_Label_Construction.ipynb
+03_Baseline_Models.ipynb
+04_Custom_NN_Model.ipynb
+05_Final_Model_Evaluation.ipynb
+06_Feature_Importance_and_Minimal_Feature_Analysis.ipynb
+
+
+---
+
+## Key Takeaways
+
+- Early sepsis prediction is a time-evolving problem.
+- Interpretability is critical in clinical ML.
+- Distributed feature interaction matters more than isolated biomarkers.
+- Temporal feature importance analysis reveals physiologically coherent progression patterns.
+
+---
+
+## Future Work
+
+- Remove structural time-index features and re-evaluate performance.
+- Explore SHAP or temporal attribution methods.
+- Evaluate calibration and decision-curve analysis.
+- Compare with transformer-based sequence models.
+
+---
+
+## Research Interests
+
+This project reflects an interest in:
+
+- Time-series modeling  
+- Clinical machine learning  
+- Model interpretability  
+- Early-event detection systems  
+
+Feedback and discussion are welcome.
