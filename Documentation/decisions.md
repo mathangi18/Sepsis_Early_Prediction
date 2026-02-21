@@ -17,3 +17,9 @@
 - **Enforce Verification of Data Scaling.** Convergence warnings in the baseline model highlighted the need for scaling. We mandated StandardScaler in the pipeline to ensure reliable gradient descent.
 - **Automated Visualization of Metrics.** To prevent manual errors in reading results, we implemented a robust visualization cell that automatically identifies and plots the correct performance metrics (ROC-AUC) from the results dataframe.
 - **Maintain Scikit-Learn API Compatibility.** The custom GPU model was designed to inherit from BaseEstimator and ClassifierMixin, ensuring it works seamlessly with existing scikit-learn pipelines and evaluation tools.
+
+## Stage 5 Decisions
+
+- **Centralized Script Management.** All standalone Python utilities (data export, notebook optimization) were moved from the root and `Notebooks/` to a dedicated `Scripts/` folder to maintain a clean workspace.
+- **Result Consolidation.** To improve reproducibility, all final performance metrics were moved to `Results/tables/` and renamed for clarity (`final_model_performance.csv`).
+- **Data Encapsulation.** We decided to package the final interim datasets into a compressed `.zip` format within the `Data/` folder to facilitate easier transport and submission while maintaining the underlying folder structure.

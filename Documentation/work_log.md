@@ -47,3 +47,13 @@
 | 2 | Model Serialization | Exported final `.pt` weights to `Results/model_weights/` for interpretability analysis. |
 | 3 | Comprehensive Evaluation | Generated ROC and PR curves for all horizons; results recorded in `horizon_results.csv`. |
 | 4 | Summary Capture | Documented definitive performance benchmarks (2h: 0.8048, 4h: 0.7671, 6h: 0.7577). |
+## Stage 5 — Organization & Finalization
+
+| Step | Activity | Notes |
+|---|---|---|
+| 1 | Folder Restructuring | Moved helper scripts to `Scripts/` and results to `Results/tables/`. |
+| 2 | Documentation Completion | Filled Clinical Interpretation, Experimental Design, and updated Work Log. |
+| 3 | Data Packaging | Compressed relevant datasets into a distribution-ready package. |
+| 4 | Version Control | Pushed all organized artifacts and documentation to `main` branch. |
+
+---
